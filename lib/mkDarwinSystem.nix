@@ -42,17 +42,19 @@ nixpkgs.lib.fix (mkDarwinSystem:
 
     defaultApp = flake-utils.lib.mkApp {
       drv = darwinConfiguration.pkgs.writeScriptBin "darwin-flake-switch" ''
-      if [ -z "$*" ]; then
-        exec ${darwinConfiguration.system}/sw/bin/darwin-rebuild --flake ${flakePath} switch
-      else
-        exec ${darwinConfiguration.system}/sw/bin/darwin-rebuild --flake ${flakePath} "''${@}"
-      fi
+        if [ -z "$*" ]; then
+          exec ${darwinConfiguration.system}/sw/bin/darwin-rebuild --flake ${flakePath} switch
+        else
+          exec ${darwinConfiguration.system}/sw/bin/darwin-rebuild --flake ${flakePath} "''${@}"
+        fi
       '';
     };
 
     outputs = {
-      inherit defaultApp defaultPackage devShell darwinConfiguration;
+      inherit defaultApp darwinConfiguration;
       inherit (darwinConfiguration) pkgs;
+      devShells.default = devShell;
+      packages.default = defaultPackage;
     };
 
   in outputs)

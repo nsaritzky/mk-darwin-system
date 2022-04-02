@@ -9,7 +9,6 @@
 
       in if isSillicon then {
         # Common packages that are still not able to build on m1
-        inherit (intelPkgs) pandoc;
 
         # Marked as broken in aarch64-darwin
         inherit (intelPkgs)
@@ -18,6 +17,7 @@
 
       } else
         { })
+
   ];
 }
 
